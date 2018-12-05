@@ -27,8 +27,12 @@ public class FractionImpl implements Fraction {
         d = denominator;
         int t1;
         int t2;
-        if(n>d){t1 = n; t2 = d;
-        }else{t1 = d; t2 = n;}
+
+        int common_divisor = GCD(n, d);
+        n = n / common_divisor;
+        d = d / common_divisor;
+        //if(n>d){t1 = n; t2 = d;
+        //}else{t1 = d; t2 = n;}
 
         //while (t1 != 0 && t2 != 0){
 
@@ -64,6 +68,14 @@ public class FractionImpl implements Fraction {
         // TODO
 
     }
+    public static int GCD( int number1, int number2){
+        if (number2 == 0){
+            return number1;
+        }
+        else{
+            return GCD(number2, number1 % number2);
+        }
+    }
 
 
     /**
@@ -71,7 +83,11 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction add(Fraction f) {
-        return null;
+
+        int n2 = 2;
+        int d2 = 2;
+        FractionImpl rf = new FractionImpl(n2, d2);
+        return rf;
     }
 
     /**
