@@ -1,4 +1,5 @@
 package fraction;
+import java.util.*;
 
 public class FractionImpl implements Fraction {
     /**
@@ -20,23 +21,15 @@ public class FractionImpl implements Fraction {
     public FractionImpl(int numerator, int denominator) {
         // TODO
         // set public or private or ...
-        if (denominator == 0){
-            throw new ArithmeticException("Divide by zero");
-        }
+
+        divideZero(denominator);
+
         n = numerator;
         d = denominator;
-        int t1;
-        int t2;
 
         int common_divisor = GCD(n, d);
         n = n / common_divisor;
         d = d / common_divisor;
-        //if(n>d){t1 = n; t2 = d;
-        //}else{t1 = d; t2 = n;}
-
-        //while (t1 != 0 && t2 != 0){
-
-        //}
 
 
     }
@@ -65,10 +58,33 @@ public class FractionImpl implements Fraction {
      * @param fraction the string representation of the fraction
      */
     public FractionImpl(String fraction) {
-        // TODO
+
+        String[] ch = (fraction.replaceAll("\\s", "")).split("/");
+
+        n = Integer.valueOf(ch[0]);
+        if(ch.length > 1) {d = Integer.valueOf(ch[1]);}
+        else{d = 1;}
+        divideZero(d);
+
+
+
+        int common_divisor = GCD(n, d);
+        n = n / common_divisor;
+        d = d / common_divisor;
+
 
     }
-    public static int GCD( int number1, int number2){
+
+
+
+
+
+    private static void divideZero(int n1){
+        if (n1 == 0){
+            throw new ArithmeticException("Divide by zero");
+        }
+    }
+    private static int GCD( int number1, int number2){
         if (number2 == 0){
             return number1;
         }
@@ -86,8 +102,8 @@ public class FractionImpl implements Fraction {
 
         int n2 = 2;
         int d2 = 2;
-        FractionImpl rf = new FractionImpl(n2, d2);
-        return rf;
+        //FractionImpl rf = new FractionImpl(n2, d2);
+        return  new FractionImpl(n2, d2);
     }
 
     /**
