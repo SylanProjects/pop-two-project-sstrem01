@@ -100,4 +100,5 @@ public interface Fraction extends Comparable<Fraction> {
      */
     @Override
     public String toString();
+
 }

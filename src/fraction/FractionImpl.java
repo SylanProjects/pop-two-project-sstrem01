@@ -13,7 +13,7 @@ public class FractionImpl implements Fraction {
      * @param numerator
      * @param denominator
      */
-    private int n;
+    int n;
     private int d;
     private int ret_n;
     private int ret_d;
@@ -22,7 +22,7 @@ public class FractionImpl implements Fraction {
         // TODO
         // set public or private or ...
 
-        divideZero(denominator);
+        checkDivideZero(denominator);
 
         n = numerator;
         d = denominator;
@@ -60,11 +60,14 @@ public class FractionImpl implements Fraction {
     public FractionImpl(String fraction) {
 
         String[] ch = (fraction.replaceAll("\\s", "")).split("/");
+        // TODO
+        // fix that replaceAll function to not get rid of the spaces before and after "/"
+
 
         n = Integer.valueOf(ch[0]);
         if(ch.length > 1) {d = Integer.valueOf(ch[1]);}
         else{d = 1;}
-        divideZero(d);
+        checkDivideZero(d);
 
 
 
@@ -75,22 +78,31 @@ public class FractionImpl implements Fraction {
 
     }
 
-
-
-
-
-    private static void divideZero(int n1){
+    private static void checkDivideZero(int n1){
+        /*
+        Checks if the denominator is zero.
+         */
         if (n1 == 0){
             throw new ArithmeticException("Divide by zero");
         }
     }
-    private static int GCD( int number1, int number2){
+    // TODO
+    // STATIC?
+    private int GCD( int number1, int number2){
         if (number2 == 0){
             return number1;
         }
         else{
             return GCD(number2, number1 % number2);
         }
+    }
+    private int getNumerator( Fraction f ) {
+        String[] ch = f.toString().split("/");
+        return Integer.valueOf(ch[0]);
+    }
+    private int getDenominator( Fraction f ) {
+        String[] ch = f.toString().split("/");
+        return Integer.valueOf(ch[1]);
     }
 
 
@@ -100,10 +112,12 @@ public class FractionImpl implements Fraction {
     @Override
     public Fraction add(Fraction f) {
 
-        int n2 = 2;
-        int d2 = 2;
-        //FractionImpl rf = new FractionImpl(n2, d2);
-        return  new FractionImpl(n2, d2);
+        int f_n = getNumerator(f);
+        int f_d = getDenominator(f);
+        int new_numerator = ((this.n * f_d)+(this.d * f_n));
+        int new_denominator = this.d * f_d;
+
+        return  new FractionImpl(new_numerator, new_denominator);
     }
 
     /**
@@ -191,13 +205,19 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public String toString() {
+        // TODO
+        /*
+        How many / / / can there be?
+        Make sure that 2/3/4 is not accepted
+         */
+
         String ret = "";
         ret += Integer.toString(n);
-        if (this.d != 1){
-            ret+= ", ";
+        //if (this.d != 1){
+            ret+= "/";
             ret += Integer.toString(d);
-        }
-
+        //}
+        // Should it 2/1 or 2 ??
         return ret;
     }
 }
