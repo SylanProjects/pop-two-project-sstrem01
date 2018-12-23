@@ -22,10 +22,11 @@ public class FractionImpl implements Fraction {
         // TODO
         // set public or private or ...
 
-        checkDivideZero(denominator);
+        //checkDivideZero(denominator);
 
         n = numerator;
         d = denominator;
+        checkDivideZero(d);
 
         int common_divisor = GCD(n, d);
         n = n / common_divisor;
@@ -111,13 +112,18 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction add(Fraction f) {
+        /*
+        This method returns a new fraction that is the sum of two fractions.
+        The parameter passed to this method is a fraction "f" that will be
+        added to this fraction.
+        It uses the (ad+bc)/bd equation. //TODO
+        For clarity, the return numerator and denominator are held in new
+        variables so it is easier to see what is happening.
+         */
+        int new_numerator = ((this.n * getDenominator(f))+(this.d * getNumerator(f)));
+        int new_denominator = this.d * getDenominator(f);
 
-        int f_n = getNumerator(f);
-        int f_d = getDenominator(f);
-        int new_numerator = ((this.n * f_d)+(this.d * f_n));
-        int new_denominator = this.d * f_d;
-
-        return  new FractionImpl(new_numerator, new_denominator);
+        return new FractionImpl(new_numerator, new_denominator);
     }
 
     /**
@@ -125,7 +131,18 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction subtract(Fraction f) {
-        return null;
+        /*
+        Same as the "add" method, it returns a new fraction which is the difference
+        of the first fraction minus the second fraction.
+        The parameter passed to this method is a fraction "f" that will be
+        subtracted from this fraction.
+        It uses the (ad-bc)/bd equation.
+        As before, new values are held in new variables for a better readability.
+         */
+        int new_numerator = ((this.n * getDenominator(f)) - (this.d * getNumerator(f)));
+        int new_denominator = this.d * getDenominator(f);
+        return new FractionImpl(new_numerator, new_denominator);
+
     }
 
     /**
@@ -133,7 +150,16 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction multiply(Fraction f) {
-        return null;
+        /*
+        This method returns a new fraction, which is the product of the two fractions.
+        The parameter passed to this method is a fraction that this fraction will
+        be multiplied by.
+        (a*c)/(b*d) is used to calculate the product.
+        The two variables store the new numerator and denominator.
+         */
+        int new_numerator = this.n * getNumerator(f);
+        int new_denominator = this.d * getDenominator(f);
+        return new FractionImpl(new_numerator, new_denominator);
     }
 
     /**
@@ -141,7 +167,17 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction divide(Fraction f) {
-        return null;
+        /*
+        This method return a new fraction, which is the quotient of dividing the main
+        fraction by the second.
+        The parameter passed to this method is the fraction that this fraction
+        will be divided by.
+        (a*d)/(b*c) is used to calculate the quotient.
+        The two variables store the new numerator and denominator.
+         */
+        int new_numerator = this.n * getDenominator(f);
+        int new_denominator = this.d * getNumerator(f);
+        return new FractionImpl(new_numerator, new_denominator);
     }
 
     /**
@@ -189,7 +225,10 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction inverse() {
-        return null;
+        /*
+        This method return a new fraction which is the reverse of this fraction.
+         */
+        return new FractionImpl(this.d, this.n);
     }
 
     /**
