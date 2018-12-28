@@ -29,8 +29,16 @@ public class FractionImpl implements Fraction {
         checkDivideZero(d);
 
         int common_divisor = GCD(n, d);
+        //System.out.print(common_divisor);
         n = n / common_divisor;
         d = d / common_divisor;
+
+        if (n > 0 && d < 0){
+            n = -n;
+            d = -d;
+        }
+        // TODO
+        // What happens when numerator and denominator are both negative?
 
 
     }
@@ -75,6 +83,11 @@ public class FractionImpl implements Fraction {
         int common_divisor = GCD(n, d);
         n = n / common_divisor;
         d = d / common_divisor;
+
+        if (n > 0 && d < 0){
+            n = -n;
+            d = -d;
+        }
 
 
     }
@@ -185,7 +198,12 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction abs() {
-        return null;
+        if(n < 0){
+            return new FractionImpl(-n, d);
+        }else{
+            return new FractionImpl(n, d);
+        }
+
     }
 
     /**
@@ -193,7 +211,7 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction negate() {
-        return null;
+        return new FractionImpl(-n, d);
     }
 
     /**
