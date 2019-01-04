@@ -1,5 +1,4 @@
 package fraction;
-import java.util.*;
 
 public class FractionImpl implements Fraction {
     /**
@@ -20,23 +19,12 @@ public class FractionImpl implements Fraction {
 
 
     public FractionImpl(int numerator, int denominator) {
-        // TODO
-        // set public or private or ...
-
-        //checkDivideZero(denominator);
-
 
         checkDivideZero(denominator);
 
-        n = numerator;
-        d = denominator;
+        this.n = numerator;
+        this.d = denominator;
 
-
-
-
-
-        // TODO
-        // What happens when numerator and denominator are both negative?
 
 
     }
@@ -48,9 +36,8 @@ public class FractionImpl implements Fraction {
      */
     public FractionImpl(int wholeNumber) {
 
-        // TODO
-        n = wholeNumber;
-        d = 1;
+        this.n = wholeNumber;
+        this.d = 1;
 
     }
 
@@ -67,79 +54,60 @@ public class FractionImpl implements Fraction {
      */
     public FractionImpl(String fraction) {
 
-        String[] ch = (fraction.replaceAll("\\s", "")).split("/");
-        // TODO
-        // fix that replaceAll function to not get rid of the spaces before and after "/"
+        String nume = fraction.substring(0, fraction.indexOf('/'));
+        int num = Integer.parseInt(nume.trim());
+        String deno = fraction.substring(fraction.indexOf('/')+1);
+        int den = Integer.parseInt(deno.trim());
 
-
-        int num;
-        int den;
-        num = Integer.valueOf(ch[0]);
-        if(ch.length > 1) {den = Integer.valueOf(ch[1]);}
-        else{den = 1;}
         checkDivideZero(den);
 
-        n = num;
-        d = den;
-
-
-
-
+        this.n = num;
+        this.d = den;
 
 
 
     }
-    private Fraction normalize(int num, int den){
-        int common_divisor = GCD(num, den);
-        ///System.out.println(common_divisor);
-        num = num / common_divisor;
-        den = den / common_divisor;
-
-        if (num > 0 && den < 0){
-           return new FractionImpl(-num, -den);
-        }
-        else{
-            return new FractionImpl(num, den);
-        }
-    }
-
+    //Helper methods:
     private static void checkDivideZero(int n1){
         /*
-        Checks if the denominator is zero.
-         */
-        if (n1 == 0){
-            throw new ArithmeticException("Divide by zero");
-        }
+         Input: Integer
+         Checks if the denominator is zero.
+
+         This method throws an Arithmetic Exception
+        */
+        if (n1 == 0){ throw new ArithmeticException("Divide by zero"); }
     }
-    // TODO
-    // STATIC?
-    private int GCD( int number1, int number2){
-        if (number2 == 0){
-            return number1;
-        }
-        else{
-            return GCD(number2, number1 % number2);
-        }
+    private int GCD( int n1, int n2){
+        /*
+         Input: two Integers, numerator and denominator
+         Output: Greatest Common Divisor
+
+         This method uses recursion to find the greatest common divisor.
+        */
+        if (n2 == 0){ return n1; }
+        else{ return GCD(n2, n1 % n2); }
     }
     private int getNumerator( Fraction f ) {
-        //String[] ch = f.toString().split("/");
-       // return Integer.valueOf(ch[0]);
+        /*
+        Input: Fraction
+        Output: numerator integer
 
-        String s = f.toString().substring(0, f.toString().indexOf('/'));
-        return Integer.parseInt(s);
-       // String num = f.toString().substring(0, f.toString().indexOf('/'));
-
+        This method takes the fraction and returns an integer value of the numerator
+        to make it easier to access it throughout the class.
+         */
+        FractionImpl fr = (FractionImpl) f;
+        return fr.n;
     }
     private int getDenominator( Fraction f ) {
-        String[] ch = f.toString().split("/");
-        return Integer.valueOf(ch[1]);
-    }
-    public int getNum(){
+        /*
+        Input: Fraction
+        Output: denominator integer
 
-        return this.n;
-    }
-    int getDen(){
-        return this.d;
+        This method takes the fraction and returns an integer value of the denominator
+        to make it easier to access it throughout the class.
+         */
+        FractionImpl fr = (FractionImpl) f;
+        return fr.d;
     }
 
 
@@ -149,6 +117,9 @@ public class FractionImpl implements Fraction {
     @Override
     public Fraction add(Fraction f) {
         /*
+        Input: Fraction
+        Output: new fraction (this + f)
+
         This method returns a new fraction that is the sum of two fractions.
         The parameter passed to this method is a fraction "f" that will be
         added to this fraction.
@@ -156,9 +127,9 @@ public class FractionImpl implements Fraction {
         For clarity, the return numerator and denominator are held in new
         variables so it is easier to see what is happening.
          */
+
         int new_numerator = ((this.n * getDenominator(f))+(this.d * getNumerator(f)));
         int new_denominator = this.d * getDenominator(f);
-
         return new FractionImpl(new_numerator, new_denominator);
     }
 
@@ -168,6 +139,9 @@ public class FractionImpl implements Fraction {
     @Override
     public Fraction subtract(Fraction f) {
         /*
+        Input: Fraction
+        Output: new fraction (this - f)
+
         Same as the "add" method, it returns a new fraction which is the difference
         of the first fraction minus the second fraction.
         The parameter passed to this method is a fraction "f" that will be
@@ -187,6 +161,9 @@ public class FractionImpl implements Fraction {
     @Override
     public Fraction multiply(Fraction f) {
         /*
+        Input: Fraction
+        Output: new fraction (this * f)
+
         This method returns a new fraction, which is the product of the two fractions.
         The parameter passed to this method is a fraction that this fraction will
         be multiplied by.
@@ -204,6 +181,9 @@ public class FractionImpl implements Fraction {
     @Override
     public Fraction divide(Fraction f) {
         /*
+        Input: Fraction
+        Output: new fraction (this / f)
+
         This method return a new fraction, which is the quotient of dividing the main
         fraction by the second.
         The parameter passed to this method is the fraction that this fraction
@@ -211,6 +191,7 @@ public class FractionImpl implements Fraction {
         (a*d)/(b*c) is used to calculate the quotient.
         The two variables store the new numerator and denominator.
          */
+
         int new_numerator = this.n * getDenominator(f);
         int new_denominator = this.d * getNumerator(f);
         return new FractionImpl(new_numerator, new_denominator);
@@ -221,7 +202,12 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction abs() {
+        /*
+        Input: None
+        Output: new fraction
 
+        This method returns this' fraction absolute value.
+         */
         if(this.n < 0){
             return new FractionImpl(-n, d);
         }else{
@@ -235,6 +221,13 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public Fraction negate() {
+        /*
+        Input: None
+        Output: new fraction
+
+        This method returns a new fraction which is a negative of this fraction,
+        it does not negate this fraction.
+         */
         return new FractionImpl(-n, d);
     }
 
@@ -251,17 +244,20 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public boolean equals(Object o) {
+        /*
+        Input: Object
+        Output: boolean
 
+        This method checks if the object is a fraction and checks if this is equal to
+        the passed object.
+         */
         if(o instanceof Fraction){
             FractionImpl f = (FractionImpl) o;
             if(this.n == f.n && this.d == f.d){
-                return true;
-            }else{
-                return false;
-            }
-        }else{
-            return false;
+                return true; }
+            else{ return false; }
         }
+        else{ return false; }
 
 
 
@@ -281,7 +277,8 @@ public class FractionImpl implements Fraction {
     @Override
     public Fraction inverse() {
         /*
-        This method return a new fraction which is the reverse of this fraction.
+        Output: new Fraction
+        This method returns a new fraction which is the reverse of this fraction.
          */
         return new FractionImpl(this.d, this.n);
     }
@@ -290,22 +287,31 @@ public class FractionImpl implements Fraction {
      * @inheritDoc
      */
     @Override
-    public int compareTo(Fraction o) {
+    public int compareTo(Fraction f) {
+        /*
+        Input: Fraction
+        Output: integer
 
-        if(o instanceof Fraction){
-            int c = getNumerator(o);
-            int d = getDenominator(o);
+        This method compares the two fractions and returns 1 if this is bigger than f,
+        -1 if f is bigger than this and 0 if they are equal.
+         */
+
+        if(f != null){
+            FractionImpl fr = (FractionImpl) f;
             double a = this.n/(double)this.d;
-            double b = c/(double)d;
-            if(this.n == c && this.d == d) {
-                return 0;
-            }else if(a > b){
+            double b = fr.n/(double)fr.d;
+            if(a > b){
                 return 1;
             }else if (a < b){
                 return -1;
+            }else{
+                return 0;
             }
+        }else{
+            throw new ClassCastException();
         }
-        return 4;
+
+
 
     }
 
@@ -314,29 +320,40 @@ public class FractionImpl implements Fraction {
      */
     @Override
     public String toString() {
-        // TODO
         /*
-        How many / / / can there be?
-        Make sure that 2/3/4 is not accepted
-         */
+        This method returns a normalized string representation of this fraction.
+        It does not change the value of this numerator and denominator,
+        it simply return new values.
+        It first normalizes the representation of the fraction, then it makes
+        sure that only the numerator is negative and lastly it returns a string
+        representation of the fraction by storing the numerator and denominator in a
+        new string variable "ret".
+        */
+
+
         int num = n;
         int den = d;
 
+
+        // Normalize
         int common_divisor = GCD(num, den);
         num = num / common_divisor;
         den = den / common_divisor;
 
+        // MMake sure that only the numerator is negative
         if (num > 0 && den < 0){
             num = -num;
             den = -den;
         }
 
-
-
         String ret = "";
         ret += Integer.toString(num);
-        ret+= "/";
-        ret += Integer.toString(den);
+        // If the denominator is 1, return the whole number.
+        if(den != 1){
+            ret+= "/";
+            ret += Integer.toString(den);
+        }
+
 
         return ret;
     }
