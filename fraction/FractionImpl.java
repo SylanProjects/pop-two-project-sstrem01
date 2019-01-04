@@ -123,7 +123,7 @@ public class FractionImpl implements Fraction {
         This method returns a new fraction that is the sum of two fractions.
         The parameter passed to this method is a fraction "f" that will be
         added to this fraction.
-        It uses the (ad+bc)/bd equation. //TODO
+        It uses the (ad+bc)/bd equation.
         For clarity, the return numerator and denominator are held in new
         variables so it is easier to see what is happening.
          */
