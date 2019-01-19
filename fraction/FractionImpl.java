@@ -53,11 +53,17 @@ public class FractionImpl implements Fraction {
      * @param fraction the string representation of the fraction
      */
     public FractionImpl(String fraction) {
-
-        String nume = fraction.substring(0, fraction.indexOf('/'));
-        int num = Integer.parseInt(nume.trim());
-        String deno = fraction.substring(fraction.indexOf('/')+1);
-        int den = Integer.parseInt(deno.trim());
+        int num;
+        int den;
+        if(fraction.indexOf('/') != -1) {
+            String nume = fraction.substring(0, fraction.indexOf('/'));
+            num = Integer.parseInt(nume.trim());
+            String deno = fraction.substring(fraction.indexOf('/') + 1);
+            den = Integer.parseInt(deno.trim());
+        }else{
+            num = Integer.parseInt(fraction.trim());
+            den = 1;
+        }
 
         checkDivideZero(den);
 
@@ -72,7 +78,6 @@ public class FractionImpl implements Fraction {
         /*
          Input: Integer
          Checks if the denominator is zero.
-
          This method throws an Arithmetic Exception
         */
         if (n1 == 0){ throw new ArithmeticException("Divide by zero"); }
@@ -81,7 +86,6 @@ public class FractionImpl implements Fraction {
         /*
          Input: two Integers, numerator and denominator
          Output: Greatest Common Divisor
-
          This method uses recursion to find the greatest common divisor.
         */
         if (n2 == 0){ return n1; }
@@ -91,7 +95,6 @@ public class FractionImpl implements Fraction {
         /*
         Input: Fraction
         Output: numerator integer
-
         This method takes the fraction and returns an integer value of the numerator
         to make it easier to access it throughout the class.
          */
@@ -102,7 +105,6 @@ public class FractionImpl implements Fraction {
         /*
         Input: Fraction
         Output: denominator integer
-
         This method takes the fraction and returns an integer value of the denominator
         to make it easier to access it throughout the class.
          */
@@ -119,7 +121,6 @@ public class FractionImpl implements Fraction {
         /*
         Input: Fraction
         Output: new fraction (this + f)
-
         This method returns a new fraction that is the sum of two fractions.
         The parameter passed to this method is a fraction "f" that will be
         added to this fraction.
@@ -141,7 +142,6 @@ public class FractionImpl implements Fraction {
         /*
         Input: Fraction
         Output: new fraction (this - f)
-
         Same as the "add" method, it returns a new fraction which is the difference
         of the first fraction minus the second fraction.
         The parameter passed to this method is a fraction "f" that will be
@@ -163,7 +163,6 @@ public class FractionImpl implements Fraction {
         /*
         Input: Fraction
         Output: new fraction (this * f)
-
         This method returns a new fraction, which is the product of the two fractions.
         The parameter passed to this method is a fraction that this fraction will
         be multiplied by.
@@ -183,7 +182,6 @@ public class FractionImpl implements Fraction {
         /*
         Input: Fraction
         Output: new fraction (this / f)
-
         This method return a new fraction, which is the quotient of dividing the main
         fraction by the second.
         The parameter passed to this method is the fraction that this fraction
@@ -205,10 +203,9 @@ public class FractionImpl implements Fraction {
         /*
         Input: None
         Output: new fraction
-
         This method returns this' fraction absolute value.
          */
-        if(this.n < 0){
+        if(this.n < 0 ^ this.d < 0){
             return new FractionImpl(-n, d);
         }else{
             return new FractionImpl(n, d);
@@ -224,7 +221,6 @@ public class FractionImpl implements Fraction {
         /*
         Input: None
         Output: new fraction
-
         This method returns a new fraction which is a negative of this fraction,
         it does not negate this fraction.
          */
@@ -247,15 +243,13 @@ public class FractionImpl implements Fraction {
         /*
         Input: Object
         Output: boolean
-
         This method checks if the object is a fraction and checks if this is equal to
         the passed object.
          */
         if(o instanceof Fraction){
             FractionImpl f = (FractionImpl) o;
-            if(this.n == f.n && this.d == f.d){
-                return true; }
-            else{ return false; }
+            if((this.n == f.n && this.d == f.d) || (this.n == -f.n && this.d == -f.d) ){ return true; }
+            else {return false;}
         }
         else{ return false; }
 
@@ -291,7 +285,6 @@ public class FractionImpl implements Fraction {
         /*
         Input: Fraction
         Output: integer
-
         This method compares the two fractions and returns 1 if this is bigger than f,
         -1 if f is bigger than this and 0 if they are equal.
          */
